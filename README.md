@@ -5,6 +5,7 @@
 [![Tests](https://img.shields.io/badge/tests-93%20passed-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Manuscript: Springer Nature](https://img.shields.io/badge/manuscript-Springer%20Nature%20Q1-blue.svg)](paper/main.pdf)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/RaffeOP/Tail-latency-amplification-and-coupled-thread--pool-saturation-in-cloud)
 
 This repository contains the complete experimental testbed, analytical queueing models, measurement datasets (540 accepted campaign runs + 200 retained sensitivity runs), offline verification scripts, and LaTeX manuscript source for the study:
 
@@ -12,7 +13,8 @@ This repository contains the complete experimental testbed, analytical queueing 
 > **Authors:**  
 > - **Devarsh Patel** (Contributing Author) — [devarsh.patel2024@vitstudent.ac.in](mailto:devarsh.patel2024@vitstudent.ac.in)  
 > - **Ranjithkumar S** (Corresponding Author) — [ranjithkumar.s@vit.ac.in](mailto:ranjithkumar.s@vit.ac.in)  
-> *School of Computer Science and Engineering (SCOPE), Vellore Institute of Technology (VIT), Vellore, Tamil Nadu, India*
+> *School of Computer Science and Engineering (SCOPE), Vellore Institute of Technology (VIT), Vellore, Tamil Nadu, India*  
+> **Repository:** [https://github.com/RaffeOP/Tail-latency-amplification-and-coupled-thread--pool-saturation-in-cloud](https://github.com/RaffeOP/Tail-latency-amplification-and-coupled-thread--pool-saturation-in-cloud)
 
 ---
 
@@ -73,9 +75,11 @@ Microservice requests fan out across directed acyclic dependency graphs, where e
 
 ### 1. Environment Setup
 
-Python 3.12 or newer is recommended. Install required dependencies:
+Python 3.12 or newer is recommended. Clone the repository and install required dependencies:
 
 ```bash
+git clone https://github.com/RaffeOP/Tail-latency-amplification-and-coupled-thread--pool-saturation-in-cloud.git
+cd Tail-latency-amplification-and-coupled-thread--pool-saturation-in-cloud
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
