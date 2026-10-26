@@ -1,0 +1,29 @@
+{
+  "vertex_id": 0,
+  "port": 42112,
+  "children": [
+    {
+      "vertex_id": 0,
+      "port": 33112
+    }
+  ],
+  "runtime": "proxy",
+  "pool_size": 8,
+  "service_mean_ms": 10.0,
+  "service_sigma": 0.5,
+  "cpu_burn_fraction": 0.1,
+  "seed": 882951475,
+  "instrument": false,
+  "tracing_rate": 0.0,
+  "trace_exporter": "none",
+  "trace_path": "",
+  "fault": "none",
+  "fault_start_ns": 0,
+  "fault_end_ns": 0,
+  "fault_factor": 1.0,
+  "fault_error_prob": 0.0,
+  "fault_hang_ms": 0.0,
+  "controller": "none",
+  "min_remaining_ms": 0.0,
+  "max_retries": 0
+}

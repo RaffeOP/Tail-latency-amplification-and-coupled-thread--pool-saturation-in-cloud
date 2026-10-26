@@ -1,0 +1,60 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Full Phase 5 sweep: goodput within the 250\,ms SLA, success fraction, and P99.9 of successful requests for each fault, controller, and load level. Each cell averages two runs.}
+\label{tab:sweep}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+\textbf{Fault} & \textbf{Controller} & \textbf{Level} & \textbf{Load (req/s)} & \textbf{Goodput (req/s)} & \textbf{Success} & \textbf{P99.9 OK (ms)} \\
+\midrule
+errors & dacshed & 1 & 38.6 & 34.8 & 0.90 & 84.7 \\
+errors & dacshed & 2 & 67.5 & 60.2 & 0.89 & 81.5 \\
+errors & dacshed & 3 & 96.4 & 85.8 & 0.90 & 79.4 \\
+errors & dacshed & 4 & 125.3 & 110.7 & 0.89 & 82.8 \\
+errors & dacshed & 5 & 154.2 & 136.0 & 0.89 & 97.6 \\
+errors & naive\_retry & 1 & 38.6 & 38.6 & 1.00 & 139.0 \\
+errors & naive\_retry & 2 & 67.5 & 68.3 & 1.00 & 148.4 \\
+errors & naive\_retry & 3 & 96.4 & 96.8 & 1.00 & 154.1 \\
+errors & naive\_retry & 4 & 125.3 & 125.7 & 1.00 & 156.8 \\
+errors & naive\_retry & 5 & 154.2 & 151.8 & 1.00 & 224.9 \\
+errors & static\_cb & 1 & 38.6 & 34.1 & 0.89 & 82.1 \\
+errors & static\_cb & 2 & 67.5 & 57.0 & 0.84 & 90.0 \\
+errors & static\_cb & 3 & 96.4 & 79.9 & 0.84 & 89.6 \\
+errors & static\_cb & 4 & 125.3 & 103.9 & 0.83 & 94.2 \\
+errors & static\_cb & 5 & 154.2 & 125.2 & 0.82 & 120.7 \\
+hang & dacshed & 1 & 38.6 & 24.7 & 0.63 & 82.6 \\
+hang & dacshed & 2 & 67.5 & 40.0 & 0.59 & 82.2 \\
+hang & dacshed & 3 & 96.4 & 52.0 & 0.54 & 80.1 \\
+hang & dacshed & 4 & 125.3 & 64.2 & 0.51 & 84.9 \\
+hang & dacshed & 5 & 154.2 & 73.7 & 0.48 & 88.4 \\
+hang & naive\_retry & 1 & 38.6 & 24.5 & 0.81 & 9944.4 \\
+hang & naive\_retry & 2 & 67.5 & 42.2 & 0.80 & 9948.0 \\
+hang & naive\_retry & 3 & 96.4 & 53.5 & 0.79 & 9947.0 \\
+hang & naive\_retry & 4 & 125.3 & 64.4 & 0.79 & 9972.3 \\
+hang & naive\_retry & 5 & 154.2 & 53.5 & 0.79 & 9978.5 \\
+hang & static\_cb & 1 & 38.6 & 23.9 & 0.81 & 9884.3 \\
+hang & static\_cb & 2 & 67.5 & 40.6 & 0.80 & 9963.2 \\
+hang & static\_cb & 3 & 96.4 & 55.5 & 0.79 & 9955.6 \\
+hang & static\_cb & 4 & 125.3 & 61.5 & 0.79 & 9969.6 \\
+hang & static\_cb & 5 & 154.2 & 54.3 & 0.80 & 9978.0 \\
+slowdown & dacshed & 1 & 38.6 & 35.4 & 0.93 & 143.3 \\
+slowdown & dacshed & 2 & 67.5 & 62.6 & 0.91 & 145.4 \\
+slowdown & dacshed & 3 & 96.4 & 84.6 & 0.87 & 189.2 \\
+slowdown & dacshed & 4 & 125.3 & 84.9 & 0.68 & 187.5 \\
+slowdown & dacshed & 5 & 154.2 & 124.0 & 0.81 & 256.5 \\
+slowdown & naive\_retry & 1 & 38.6 & 38.8 & 1.00 & 139.7 \\
+slowdown & naive\_retry & 2 & 67.5 & 66.3 & 1.00 & 144.2 \\
+slowdown & naive\_retry & 3 & 96.4 & 95.4 & 1.00 & 191.9 \\
+slowdown & naive\_retry & 4 & 125.3 & 77.6 & 1.00 & 2966.9 \\
+slowdown & naive\_retry & 5 & 154.2 & 61.1 & 1.00 & 7194.5 \\
+slowdown & static\_cb & 1 & 38.6 & 38.5 & 1.00 & 135.7 \\
+slowdown & static\_cb & 2 & 67.5 & 67.7 & 1.00 & 154.0 \\
+slowdown & static\_cb & 3 & 96.4 & 96.7 & 1.00 & 243.4 \\
+slowdown & static\_cb & 4 & 125.3 & 78.9 & 1.00 & 2789.7 \\
+slowdown & static\_cb & 5 & 154.2 & 57.4 & 1.00 & 7671.4 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

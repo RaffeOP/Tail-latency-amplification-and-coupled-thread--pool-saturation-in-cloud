@@ -1,0 +1,55 @@
+{
+  "run": {
+    "run_id": "p3-chain_D4-pay4096-r1",
+    "phase": 3,
+    "topology": "chain",
+    "shape": "chain_D4",
+    "topology_args": {
+      "depth": 4
+    },
+    "runtime": "sync",
+    "arrival_rate_rps": 30.0,
+    "duration_s": 90.0,
+    "warmup_s": 10.0,
+    "payload_bytes": 4096,
+    "pool_size": 8,
+    "service_mean_ms": 10.0,
+    "service_sigma": 0.5,
+    "cpu_burn_fraction": 0.1,
+    "replicate": 1,
+    "seed": 2888264611,
+    "extra": {},
+    "sidecar": true,
+    "tracing_rate": 0.0,
+    "trace_exporter": "none",
+    "fault": "none",
+    "fault_target": 2,
+    "fault_start_frac": 0.35,
+    "fault_end_frac": 0.65,
+    "controller": "none",
+    "sla_ms": 0.0,
+    "max_retries": 0
+  },
+  "summary": {
+    "measured": 2423.0,
+    "ok": 2423.0,
+    "error": 0.0,
+    "timeout": 0.0,
+    "mean_us": 44074.964919521255,
+    "max_us": 112767.0,
+    "p50.0_us": 42975.0,
+    "p90.0_us": 55839.0,
+    "p99.0_us": 72639.0,
+    "p99.9_us": 103871.0,
+    "p99.99_us": 112767.0,
+    "host_noise_p99_ms": 0.00033299531787631814
+  },
+  "scheduled": 2749,
+  "generator_aborted": false,
+  "machine": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.6",
+    "grpc": "1.84.1",
+    "cpu_count": 8
+  }
+}

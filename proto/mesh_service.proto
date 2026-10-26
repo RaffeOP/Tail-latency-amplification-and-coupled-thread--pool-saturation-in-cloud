@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package cloudmesh;
+
+service MeshWorker {
+    rpc ExecuteHop (HopRequest) returns (HopResponse);
+}
+
+message HopRequest {
+    string request_id = 1;
+    int32 current_vertex_id = 2;
+    int64 ingress_arrival_ns = 3;
+    int64 absolute_deadline_ns = 4; // Used by DAC-Shed for cross-hop deadline shedding
+    int32 trace_sampling_flag = 5;  // 0 = unsampled, 1 = OpenTelemetry span active
+    bytes payload_blob = 6;         // Configurable 64B to 64KB wire payload for RQ3
+    repeated string span_context_stack = 7;
+}
+
+message HopTimeline {
+    int32 vertex_id = 1;
+    int64 pool_wait_us = 2;
+    int64 deser_cpu_us = 3;
+    int64 business_proc_us = 4;
+    int64 ser_cpu_us = 5;
+    int64 proxy_hop_us = 6;
+    int64 total_hop_us = 7;
+    double active_pool_utilization = 8;
+    double process_cpu_percent = 9;
+}
+
+message HopResponse {
+    string request_id = 1;
+    int32 status_code = 2; // 200 = OK, 429 = CB_SHED, 504 = DEADLINE_EXCEEDED
+    bytes response_blob = 3;
+    repeated HopTimeline hop_timelines = 4;
+}

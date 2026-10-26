@@ -1,0 +1,97 @@
+{
+  "phase5_request_bootstrap_95ci": {
+    "l5_cells_pooled_halfwidth": {
+      "errors_dacshed_136.0": 0.595,
+      "errors_naive_retry_151.8": 0.133,
+      "errors_static_cb_125.2": 0.743,
+      "hang_dacshed_73.7": 0.961,
+      "hang_naive_retry_53.5": 0.917,
+      "hang_static_cb_54.3": 0.918,
+      "slowdown_dacshed_124.0": 0.758,
+      "slowdown_naive_retry_61.1": 0.94,
+      "slowdown_static_cb_57.4": 0.932
+    },
+    "max_halfwidth_pooled_across_all_45_cells_req_s": 0.961,
+    "max_halfwidth_single_run_across_all_45_cells_req_s": 1.36,
+    "slowdown_dacshed_single_run_hw": 1.11,
+    "hang_dacshed_single_run_hw": 1.36
+  },
+  "phase5_retry_gate_replay": {
+    "errors_base_goodput_mean_rps": 136.02,
+    "errors_replay_goodput_mean_rps": 147.74,
+    "errors_recovery_pct": 70.9,
+    "extra_invocations_pct": 2.7,
+    "slowdown_retries_permitted": 0,
+    "slowdown_gradient_condition_verified": "gamma_v >= 3.0 and B_rem < 2*floor(v)",
+    "hang_retries_permitted": 0,
+    "hang_gradient_condition_verified": "gamma_v >= 3.0 and B_rem < 2*floor(v)"
+  },
+  "sensitivity_gate_phases35": {
+    "phase3_admitted_borderline_runs": 9,
+    "phase3_serialization_share_range": [
+      0.2,
+      0.76
+    ],
+    "phase3_proxy_share_range": [
+      22.7,
+      31.86
+    ],
+    "phase3_max_proxy_shift_pct_points": 0.39,
+    "phase4_admitted_borderline_runs": 7,
+    "phase4_high_load_p99_delta_range_strict_ms": [
+      4.32,
+      10.59
+    ],
+    "phase4_high_load_p99_delta_range_relaxed_ms": [
+      2.5,
+      9.57
+    ],
+    "phase4_all_6_positive_above_baseline": true,
+    "phase5_admitted_borderline_runs": 11,
+    "phase5_dacshed_shifts_l5_req_s": {
+      "slowdown": 0.0,
+      "hang": 0.0,
+      "errors": 0.0
+    },
+    "phase5_all_controller_rankings_preserved": true
+  },
+  "phase4": {
+    "base_p99_ms": 67.487,
+    "base_background_cores": 0.9326,
+    "traced_background_range_cores": [
+      0.1102,
+      0.4057
+    ],
+    "median_delta_p99_ms": 5.440000000000005,
+    "delta_p99_range_ms": [
+      4.320000000000007,
+      10.591999999999999
+    ],
+    "median_delta_p999_ms": 6.624000000000002,
+    "sign_test_p": 0.03125,
+    "within_traced_bg_slope_ms_per_core": 16.906121591210578
+  },
+  "phase2_leaf_telemetry": {
+    "aio": {
+      "mean_node_cores": 5.509,
+      "median_leaf_wait_p50_ms": 29.92,
+      "median_leaf_wait_p99_ms": 266.59,
+      "median_leaf_work_p50_ms": 9.57,
+      "mean_corr_work_wait": 0.091
+    },
+    "hybrid": {
+      "mean_node_cores": 5.825,
+      "median_leaf_wait_p50_ms": 1452.8,
+      "median_leaf_wait_p99_ms": 1912.89,
+      "median_leaf_work_p50_ms": 30.58,
+      "mean_corr_work_wait": -0.068
+    },
+    "sync": {
+      "mean_node_cores": 4.747,
+      "median_leaf_wait_p50_ms": 24.84,
+      "median_leaf_wait_p99_ms": 50.77,
+      "median_leaf_work_p50_ms": 9.16,
+      "mean_corr_work_wait": -0.007
+    }
+  }
+}

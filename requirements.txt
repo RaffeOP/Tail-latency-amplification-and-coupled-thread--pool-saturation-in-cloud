@@ -1,0 +1,22 @@
+# R4: Microservice Mesh Tail-Latency Benchmark Dependencies
+# 100% CPU Multi-Threaded Execution (Python 3.10+)
+
+# Numerical Computation & Telemetry Analytics
+numpy>=1.24.0
+scipy>=1.10.0
+pandas>=2.0.0
+networkx>=3.1
+pyarrow>=14.0.0
+fastparquet>=2024.2.0
+psutil>=5.9.0
+pyyaml>=6.0.0
+
+# gRPC Wire Protocol & Async Concurrency
+grpcio>=1.60.0
+grpcio-tools>=1.60.0
+protobuf>=4.25.0
+aiohttp>=3.9.0
+
+# Publication-Grade Scientific Plotting (300+ DPI, Type-42 TrueType fonts)
+matplotlib>=3.7.0
+seaborn>=0.12.0

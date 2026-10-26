@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Overload control under injected faults on a four-vertex chain: goodput within a 250\,ms SLA at load levels L3 and L5 (req/s), success fraction and P99.9 of successful requests at L3.}
+\label{tab:overload}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+\textbf{Fault} & \textbf{Controller} & \textbf{Goodput L3} & \textbf{Success L3} & \textbf{P99.9 OK L3 (ms)} & \textbf{Goodput L5} \\
+\midrule
+errors & dacshed & 85.8 & 0.90 & 79.4 & 136.0 \\
+errors & naive\_retry & 96.8 & 1.00 & 154.1 & 151.8 \\
+errors & static\_cb & 79.9 & 0.84 & 89.6 & 125.2 \\
+hang & dacshed & 52.0 & 0.54 & 80.1 & 73.7 \\
+hang & naive\_retry & 53.5 & 0.79 & 9947.0 & 53.5 \\
+hang & static\_cb & 55.5 & 0.79 & 9955.6 & 54.3 \\
+slowdown & dacshed & 84.6 & 0.87 & 189.2 & 124.0 \\
+slowdown & naive\_retry & 95.4 & 1.00 & 191.9 & 61.1 \\
+slowdown & static\_cb & 96.7 & 1.00 & 243.4 & 57.4 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

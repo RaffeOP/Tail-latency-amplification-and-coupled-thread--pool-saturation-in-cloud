@@ -1,0 +1,33 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Phase 1 shapes: generalized Pareto tail parameters above the 95th percentile at the highest stable load, with 95\% bootstrap intervals for $\xi$.}
+\label{tab:tails}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+\textbf{Shape} & \textbf{Runtime} & \textbf{Excesses} & \textbf{$\xi$ [95\% CI]} & \textbf{$\sigma$ (ms)} \\
+\midrule
+chain\_D2 & sync & 2501 & -0.04 [-0.08, -0.00] & 7.654 \\
+chain\_D4 & sync & 1237 & -0.06 [-0.12, -0.00] & 10.973 \\
+chain\_D6 & sync & 818 & 0.01 [-0.07, 0.06] & 12.094 \\
+chain\_D8 & sync & 609 & -0.21 [-0.30, -0.16] & 20.940 \\
+deathstar\_hotel\_8 & sync & 1237 & -0.11 [-0.16, -0.06] & 9.941 \\
+deathstar\_social\_12 & sync & 926 & -0.11 [-0.17, -0.06] & 10.020 \\
+diamond\_D3\_W4 & sync & 952 & -0.01 [-0.08, 0.05] & 11.988 \\
+diamond\_D3\_W8 & sync & 648 & -0.37 [-0.42, -0.32] & 75.394 \\
+diamond\_D5\_W4 & sync & 739 & -0.09 [-0.18, -0.02] & 16.608 \\
+diamond\_D5\_W8 & sync & 475 & -0.15 [-0.23, -0.08] & 24.593 \\
+diamond\_D6\_W4 & sync & 621 & -0.16 [-0.23, -0.09] & 19.661 \\
+diamond\_D7\_W4 & sync & 523 & -0.05 [-0.13, 0.04] & 18.272 \\
+sg\_D2\_F2 & sync & 2486 & 0.53 [0.49, 0.58] & 11.963 \\
+sg\_D2\_F4 & sync & 1872 & -0.07 [-0.11, -0.03] & 7.569 \\
+sg\_D2\_F8 & sync & 1872 & -0.02 [-0.07, 0.02] & 9.379 \\
+sg\_D3\_F2 & sync & 1248 & -0.03 [-0.10, 0.02] & 7.479 \\
+sg\_D3\_F4 & sync & 1097 & 0.09 [0.03, 0.15] & 17.777 \\
+sg\_D4\_F2 & sync & 920 & -0.12 [-0.18, -0.06] & 10.520 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

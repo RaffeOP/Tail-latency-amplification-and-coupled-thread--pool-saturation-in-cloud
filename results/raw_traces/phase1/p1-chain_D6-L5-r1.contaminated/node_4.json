@@ -1,0 +1,16 @@
+{
+  "vertex_id": 4,
+  "port": 32796,
+  "children": [
+    {
+      "vertex_id": 5,
+      "port": 32797
+    }
+  ],
+  "runtime": "sync",
+  "pool_size": 8,
+  "service_mean_ms": 10.0,
+  "service_sigma": 0.5,
+  "cpu_burn_fraction": 0.1,
+  "seed": 2330069559
+}

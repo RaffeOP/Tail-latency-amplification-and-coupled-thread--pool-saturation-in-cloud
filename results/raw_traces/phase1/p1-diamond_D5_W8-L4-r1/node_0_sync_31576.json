@@ -1,0 +1,57 @@
+{
+  "vertex_id": 0,
+  "port": 31576,
+  "children": [
+    {
+      "vertex_id": 1,
+      "port": 31577
+    },
+    {
+      "vertex_id": 4,
+      "port": 31580
+    },
+    {
+      "vertex_id": 7,
+      "port": 31583
+    },
+    {
+      "vertex_id": 10,
+      "port": 31586
+    },
+    {
+      "vertex_id": 13,
+      "port": 31589
+    },
+    {
+      "vertex_id": 16,
+      "port": 31592
+    },
+    {
+      "vertex_id": 19,
+      "port": 31595
+    },
+    {
+      "vertex_id": 22,
+      "port": 31598
+    }
+  ],
+  "runtime": "sync",
+  "pool_size": 8,
+  "service_mean_ms": 10.0,
+  "service_sigma": 0.5,
+  "cpu_burn_fraction": 0.1,
+  "seed": 2076100271,
+  "instrument": false,
+  "tracing_rate": 0.0,
+  "trace_exporter": "none",
+  "trace_path": "",
+  "fault": "none",
+  "fault_start_ns": 1792743943083461999,
+  "fault_end_ns": 1792743970083462000,
+  "fault_factor": 4.0,
+  "fault_error_prob": 0.3,
+  "fault_hang_ms": 1000.0,
+  "controller": "none",
+  "min_remaining_ms": 52.5,
+  "max_retries": 0
+}

@@ -1,0 +1,29 @@
+{
+  "vertex_id": 2,
+  "port": 31642,
+  "children": [
+    {
+      "vertex_id": 3,
+      "port": 31643
+    }
+  ],
+  "runtime": "sync",
+  "pool_size": 8,
+  "service_mean_ms": 10.0,
+  "service_sigma": 0.5,
+  "cpu_burn_fraction": 0.1,
+  "seed": 840993574,
+  "instrument": false,
+  "tracing_rate": 0.5,
+  "trace_exporter": "sync",
+  "trace_path": "/Users/raffe/Downloads/R4/results/raw_traces/phase4/p4-chain_D4-high-rate50-sync-r3.partial/spans/spans_2.jsonl",
+  "fault": "none",
+  "fault_start_ns": 1792840122916397999,
+  "fault_end_ns": 1792840149916398000,
+  "fault_factor": 4.0,
+  "fault_error_prob": 0.3,
+  "fault_hang_ms": 1000.0,
+  "controller": "none",
+  "min_remaining_ms": 21.0,
+  "max_retries": 0
+}

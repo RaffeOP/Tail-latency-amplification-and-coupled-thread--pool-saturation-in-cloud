@@ -1,0 +1,49 @@
+{
+  "vertex_id": 1,
+  "port": 31129,
+  "children": [
+    {
+      "vertex_id": 2,
+      "port": 31130
+    },
+    {
+      "vertex_id": 3,
+      "port": 31131
+    },
+    {
+      "vertex_id": 4,
+      "port": 31132
+    },
+    {
+      "vertex_id": 5,
+      "port": 31133
+    },
+    {
+      "vertex_id": 6,
+      "port": 31134
+    },
+    {
+      "vertex_id": 7,
+      "port": 31135
+    }
+  ],
+  "runtime": "sync",
+  "pool_size": 8,
+  "service_mean_ms": 10.0,
+  "service_sigma": 0.5,
+  "cpu_burn_fraction": 0.1,
+  "seed": 3040439996,
+  "instrument": false,
+  "tracing_rate": 0.0,
+  "trace_exporter": "none",
+  "trace_path": "",
+  "fault": "none",
+  "fault_start_ns": 1792747334380980999,
+  "fault_end_ns": 1792747361380981000,
+  "fault_factor": 4.0,
+  "fault_error_prob": 0.3,
+  "fault_hang_ms": 1000.0,
+  "controller": "none",
+  "min_remaining_ms": 31.5,
+  "max_retries": 0
+}

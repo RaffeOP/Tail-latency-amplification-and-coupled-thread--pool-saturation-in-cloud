@@ -1,0 +1,33 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Phase 1 shapes (synchronous runtime): amplification factors at the highest stable load, and saturation horizons $\Theta^*$ (req/s), each with the two load levels that enclose it in brackets.}
+\label{tab:amplification}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+\textbf{Shape} & \textbf{Runtime} & \textbf{$\lvert V\rvert$} & \textbf{$\Gamma_{\mathrm{crit}}$ (P99.9)} & \textbf{$\Gamma_{\mathrm{load}}$ (P99.9)} & \textbf{$\Theta^*$} \\
+\midrule
+chain\_D2 & sync & 2 & 4.26 & 1.22 & 312.2 [234.1, 312.2] \\
+chain\_D4 & sync & 4 & 3.28 & 1.28 & 154.2 [115.7, 154.2] \\
+chain\_D6 & sync & 6 & 3.01 & 0.82 & 102.4 [76.8, 102.4] \\
+chain\_D8 & sync & 8 & 2.84 & 1.38 & 76.6 [57.5, 76.6] \\
+deathstar\_hotel\_8 & sync & 8 & 4.03 & 1.28 & 154.8 [103.2, 154.8] \\
+deathstar\_social\_12 & sync & 12 & 3.20 & 1.15 & 154.2 [115.7, 154.2] \\
+diamond\_D3\_W4 & sync & 7 & 5.16 & 1.57 & 120.0 [80.0, 120.0] \\
+diamond\_D3\_W8 & sync & 11 & 20.53 & 5.86 & 80.0 [60.0, 80.0] \\
+diamond\_D5\_W4 & sync & 15 & 3.86 & 1.25 & 92.3 [61.5, 92.3] \\
+diamond\_D5\_W8 & sync & 27 & 5.12 & 1.76 & 60.0 [40.0, 60.0] \\
+diamond\_D6\_W4 & sync & 19 & 3.64 & 1.53 & 102.4 [76.8, 102.4] \\
+diamond\_D7\_W4 & sync & 23 & 3.22 & 1.39 & 87.7 [65.8, 87.7] \\
+sg\_D2\_F2 & sync & 3 & 8.14 & 2.19 & 312.2 [234.1, 312.2] \\
+sg\_D2\_F4 & sync & 5 & 4.09 & 1.09 & 312.2 [234.1, 312.2] \\
+sg\_D2\_F8 & sync & 9 & 5.47 & 1.39 & 234.1 [156.1, 234.1] \\
+sg\_D3\_F2 & sync & 7 & 3.68 & 1.14 & 206.4 [154.8, 206.5] \\
+sg\_D3\_F4 & sync & 21 & 6.64 & 2.05 & 137.1 [91.4, 137.1] \\
+sg\_D4\_F2 & sync & 15 & 3.34 & 1.19 & 154.2 [115.7, 154.2] \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

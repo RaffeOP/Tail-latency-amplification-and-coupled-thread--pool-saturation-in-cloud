@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Contaminated run folders retained on disk, by campaign phase, with the number whose background load lies in (1.0, 1.2] cores. The campaign log records 472 discarded attempts in total (Table~\ref{tab:discards}); the folders below are those still present.}
+\label{tab:gate_folders}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Directory & Folders & With telemetry & Background $\le 1.0$ core & In $(1.0, 1.2]$ cores \\
+\midrule
+phase1 & 97 & 97 & 0 & 35 \\
+phase2 & 1 & 1 & 0 & 0 \\
+phase3 & 36 & 36 & 0 & 9 \\
+phase4 & 32 & 32 & 0 & 7 \\
+phase5 & 34 & 34 & 0 & 11 \\
+\midrule
+Campaign phases & 200 & 200 & -- & 62 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

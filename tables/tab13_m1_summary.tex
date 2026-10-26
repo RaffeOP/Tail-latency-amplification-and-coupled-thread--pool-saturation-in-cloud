@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Analytical diagnostics against measured P99.9 at the stable load levels. Each entry is the ratio of measured to predicted P99.9 (values below one mean over-prediction). Upper rows summarize all 60 shape-level pairs by call-graph family; lower rows give the highest stable level of the three shapes discussed in the text.}
+\label{tab:m1_summary}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Group & Pairs & M0 median & Path-SCV median & M1 median \\
+\midrule
+chain & 16 & 0.48 & 0.92 & 0.95 \\
+deathstar & 6 & 0.59 & 1.04 & 1.09 \\
+diamond & 19 & 0.65 & 1.23 & 1.23 \\
+sg & 19 & 0.69 & 1.06 & 1.11 \\
+All pairs & 60 & 0.62 & 1.04 & 1.10 \\
+\midrule
+Shape (highest stable level) & Rate (req/s) & M0 & Path-SCV & M1 \\
+\midrule
+diamond\_D3\_W8 & 80.0 & 3.69 & 6.30 & 6.89 \\
+sg\_D3\_F4 & 137.1 & 1.25 & 2.13 & 2.02 \\
+sg\_D2\_F2 & 312.2 & 1.30 & 1.87 & 0.97 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

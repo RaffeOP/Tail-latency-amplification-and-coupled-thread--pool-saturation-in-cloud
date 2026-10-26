@@ -1,0 +1,154 @@
+\section{Results}
+\label{sec:results}
+
+This section reports the measurements in the order of the research questions. All values are medians or means of the replicates indicated, computed from the stored run folders, and the estimators follow Section~\ref{sec:estimators}. Phase~1 results use the synchronous runtime unless stated otherwise. Phase~2 is the only source of asynchronous and hybrid results, so Phase~2 numbers are not pooled with Phase~1.
+
+\subsection{Model agreement}
+\label{sec:model_agree}
+
+Figure~\ref{fig:model} overlays the analytical root quantile on the measured P99.9 for four representative shapes, one per family: chain of depth eight, scatter-gather with fan-out four at depth three, the diamond of width eight at depth five, and the DeathStar social sub-graph. Table~\ref{tab:model} gives the ratio of measured to predicted P99.9 at every stable level of every Phase~1 shape. Across the 60 shape-level pairs that meet the stability criterion, the ratio has a median of $0.62$ and an interquartile range of $0.50$ to $0.70$. The model therefore over-predicts the tail at stable loads by about $1.6$ times at the median.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig02.pdf}
+  \caption{Measured P99.9 latency against offered rate for four representative shapes, one per call-graph family: chain depth eight, scatter-gather with fan-out four at depth three, diamond with width eight at depth five, and the DeathStar social sub-graph. Solid lines show the mean over replicates with the replicate range as error bars. Dotted lines show the analytical root quantile.}
+  \label{fig:model}
+\end{figure}
+
+\input{../tables/tab08}
+
+The error is not uniform across load. It reverses near saturation. At the highest stable level, the measured P99.9 exceeded the M0 prediction for three shapes: the width-eight in-cast by a factor of $3.69$, the scatter-gather graph with fan-out two at depth two by $1.30$, and the scatter-gather graph with fan-out four at depth three by $1.25$. The reversal occurs at the top stable level, where queueing is largest.
+
+The two diagnostics of Section~\ref{sec:model_diag} separate the two kinds of error. Replacing only the root's shape parameter by the path SCV, $c_s^2/L$, moves the chains to a median of $0.91$ to $0.96$, which is the expected effect if the chain error comes from the root's fixed shape. The overall median rises to $1.04$ (interquartile range $0.98$ to $1.19$), but only because errors of opposite sign cancel across families. The same replacement pushes the fan-out ratios further above one. At the highest stable level of the width-eight in-cast it gives $6.30$, and the median over the four stable levels of that shape is $1.85$. The fan-out error therefore does not come from the root's shape parameter.
+
+The order-statistic extension M1 was tested as a second route to the fan-out error. Over the same 60 pairs its median is $1.10$ (interquartile range $1.00$ to $1.19$), against $1.04$ for the path diagnostic. Table~\ref{tab:m1_summary} gives the family medians and the highest-level ratios for the three shapes discussed above. The highest-level ratio for the width-eight in-cast rises from $3.69$ under M0 to $6.89$ under M1, and for the scatter-gather graph with fan-out four at depth three it rises from $1.25$ to $2.02$. For the scatter-gather graph with fan-out two at depth two it falls from $1.30$ to $0.97$. M1 therefore does not close the fan-out gap, and it makes the in-cast worse. We report it as an exploratory negative result. The mechanism behind the fan-out error is not identified by these diagnostics. The omitted terms of the model appear to be its source, but the campaign does not isolate them.
+
+\input{../tables/tab13_m1_summary}
+
+\subsection{RQ1: Tail amplification and depth}
+\label{sec:rq1}
+
+Table~\ref{tab:amplification} reports the amplification factors and the saturation horizons for the 18 Phase~1 shapes. For 17 of the 18 shapes, $\Gamma_{\mathrm{crit}}$ lies between $2.84$ and $8.14$ at the highest stable load. The width-eight in-cast of depth three (\texttt{diamond\_D3\_W8}) reaches $20.53$, which is the largest value in the campaign. At its highest stable level of $80$\,req/s its utilization is $0.88$, and its P99.9 is $504.8\,\mathrm{ms}$ against $86.1\,\mathrm{ms}$ at the lowest level. Queueing near saturation is the likely cause of this amplification.
+
+\input{../tables/tab02}
+
+Along chains, $\Gamma_{\mathrm{crit}}$ falls with depth, from $4.26$ at depth two to $2.84$ at depth eight (Figure~\ref{fig:amp}). The fall comes from the normalization, not from a shrinking tail. The implied critical-path median sum grows from $16.6\,\mathrm{ms}$ to $64.5\,\mathrm{ms}$, while the measured P99.9 at the highest stable level grows from $70.7\,\mathrm{ms}$ to $182.8\,\mathrm{ms}$. The P99.9 therefore grows by a factor of $2.6$ while the critical-path median grows by a factor of $3.9$, and that is why the ratio falls. The absolute tail therefore grows with depth; only the normalized factor falls.
+
+The amplification relative to the load baseline, $\Gamma_{\mathrm{load}}$, lies between $0.82$ and $2.19$ for the 17 shapes above, and it is $5.86$ for the width-eight in-cast. Three values fall below one. These are chain depth six under the synchronous runtime ($0.82$), and chain depth eight under the asynchronous and hybrid runtimes ($0.96$ and $0.98$). We read these as noise in the base-level tail rather than as a real decrease in tail latency. At the lowest load of a shape, a run holds only a few thousand measured requests, so its P99.9 rests on a handful of samples. For chain depth six, the base-level P99.9 of $177\,\mathrm{ms}$ exceeds the top stable level's $145\,\mathrm{ms}$.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig01.pdf}
+  \caption{Amplification factors against chain depth for the four chain shapes at the highest stable load: $\Gamma_{\mathrm{crit}}$ (upper curve) and $\Gamma_{\mathrm{load}}$ (lower curve), both at P99.9.}
+  \label{fig:amp}
+\end{figure}
+
+The generalized Pareto shape parameter $\xi$ is negative, with a 95\% interval below zero, for 11 of the 18 shapes. Its interval includes zero for five shapes, and it is positive, with an interval above zero, for two scatter-gather graphs. These are the fan-out two graph at depth two ($\xi=0.53$, interval 0.49 to 0.58) and the fan-out four graph at depth three ($\xi=0.09$, interval 0.03 to 0.15). Table~\ref{tab:tails} lists the values, and Figure~\ref{fig:gpd} shows a diagnostic of the fit for the run with the most measured requests. A bounded tail contradicts the heavy-tail premise, so the heavy-tail claim holds only for those two graphs. Their upper bracket levels sit at root utilizations of $0.84$ and $0.76$. The data cannot separate a property of the call graph from queueing close to saturation, because both shapes were measured near the edge of their stable range.
+
+\input{../tables/tab03}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig05.pdf}
+  \caption{Empirical excess quantiles against generalized Pareto quantiles for one run, the one with the most measured requests, above its 95th percentile. The dashed line is the identity.}
+  \label{fig:gpd}
+\end{figure}
+
+\subsection{RQ2: Saturation horizon and CPU utilization}
+\label{sec:rq2}
+
+The saturation horizon $\Theta^*$ is reported as the bracket of measured load levels that encloses it, together with the stability fraction described in Section~\ref{sec:estimators}. Figure~\ref{fig:horizon} shows the bracket for every Phase~1 shape. Along chains, the bracket falls from $234$ to $312$\,req/s at depth two to $57$ to $77$\,req/s at depth eight. For the depth-three diamond it falls from $80$ to $120$\,req/s at width four to $60$ to $80$\,req/s at width eight. The ordering matches the model's first two predictions. Deep chains and wide in-casts saturate at lower rates.
+
+The brackets are stable in most shapes. For 16 of the 18 shapes, at least 99.9\% of the bootstrap resamples return the same bracket. The two exceptions are chain depth six, at 78\%, and the diamond of width four and depth five, at 79\%. For six shapes the upper bracket level has root utilization of at least $0.9$, and so lies beyond the stability cutoff: the DeathStar social sub-graph ($0.91$), the diamond with width four at depth six ($0.96$), the diamond with width four at depth seven ($0.93$), the scatter-gather graphs with fan-out four at depth two ($0.92$) and fan-out two at depth three ($0.95$), and the scatter-gather graph with fan-out two at depth four ($0.97$). For these shapes the curvature horizon and the stability cutoff disagree, and we report both.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig04.pdf}
+  \caption{Saturation horizon $\Theta^*$ for each Phase~1 shape. Each bar spans the bracket of measured load levels that encloses the point estimate, so it is not a confidence interval.}
+  \label{fig:horizon}
+\end{figure}
+
+The reason the chains saturate at low CPU is visible in the root pool and the host processors. Figure~\ref{fig:poolcpu} plots root pool utilization against the measured CPU utilization of the mesh processes, one point per run. On the four chains, the root pool reaches utilization $0.75$ to $0.79$ at the upper bracket level while the processes use $9.2\%$ to $10.3\%$ of the eight cores (Table~\ref{tab:knee}). Saturation on chains therefore occurs at low CPU, which indicates that the root thread pool binds before the processors do. The pattern weakens for wider graphs. At the upper bracket level the width-eight in-cast reaches utilization $0.88$ at $35\%$ CPU, and the width-four diamond of depth seven reaches $0.93$ at $45\%$ CPU.
+
+\input{../tables/tab11}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig03.pdf}
+  \caption{Root pool utilization against measured CPU utilization of the mesh processes, one point per run. Colours mark the four call-graph families (chain, scatter-gather, diamond, and DeathStar sub-graphs), and the dashed line marks utilization of one.}
+  \label{fig:poolcpu}
+\end{figure}
+
+\subsection{Runtime comparison and the in-cast mechanism}
+\label{sec:runtimes}
+
+Phase~2 compares the three runtimes at the same five offered loads for three shapes, a depth-eight chain, a 21-vertex scatter-gather graph, and a 27-vertex diamond of width eight. Table~\ref{tab:runtimes} gives the median P99.9 at each level across three replicates. The comparison does not depend on the stability criterion, because every runtime is evaluated at the same loads.
+
+On the depth-eight chain, the synchronous runtime is the first to degrade. Its median P99.9 rises from $192.5\,\mathrm{ms}$ at $76.6$\,req/s to the $10\,\mathrm{s}$ timeout ceiling at $115$\,req/s, where $11.7\%$ of requests time out. The asynchronous and hybrid chains stay between $114$ and $135\,\mathrm{ms}$ at every load up to $191.6$\,req/s, with no timeouts, so no saturation horizon appears for them. At 77 and 115\,req/s the three runtimes use similar CPU, between $0.8$ and $1.2$ cores. Above 115\,req/s the synchronous CPU stops rising because its requests fail, whereas the asynchronous and hybrid runtimes continue to rise to about $1.9$ cores at the top load. The CPU comparison therefore reflects which runtime still serves the offered load.
+
+On the 21-vertex scatter-gather graph, the synchronous P99.9 rises from $118\,\mathrm{ms}$ at $137$\,req/s to $4.2\,\mathrm{s}$ at $183$\,req/s. The asynchronous and hybrid runtimes stay between $72$ and $89\,\mathrm{ms}$ up to $137$\,req/s and reach $107$ and $119\,\mathrm{ms}$ at $183$\,req/s. On the 27-vertex diamond, the synchronous runtime times out on $41\%$ of requests at $94$\,req/s, where the asynchronous P99.9 is $406\,\mathrm{ms}$ and the hybrid P99.9 is $2.1\,\mathrm{s}$. The hybrid runtime is slower than the asynchronous one on the in-cast, although the two are similar on the chain and on the scatter-gather graph.
+
+\input{../tables/tab07}
+
+The stored hop records locate the difference at the two shared leaves, each of which receives about eight calls per root request. Across three replicates at $93.7$\,req/s, the median wait for a leaf worker is 25 to 46\,ms under the synchronous and asynchronous runtimes and 1.05 to 1.47\,s under the hybrid runtime. The median local work time at the leaves is 9 to 10\,ms under the first two runtimes and 29 to 34\,ms under the hybrid runtime. The upstream pool wait stays near 1\,ms under the asynchronous and hybrid runtimes, and near 0.35\,ms under the synchronous runtime. The queue therefore forms at the shared leaves, not upstream. The upstream hop time includes the leaf wait, so the upstream latency is large under the hybrid runtime even though the upstream pool is not congested.
+
+The local work at the leaves is dilated about threefold under the hybrid runtime, and the dilation coincides with the leaf queue. The data establish the dilation and the wait, but they do not decompose the wait into its causes. Our working hypothesis is that CPython's global interpreter lock and the wakeup of worker threads from the event loop are responsible. In the hybrid runtime, the event-loop thread deserializes incoming frames and dispatches callbacks while eight pool workers run the busy-loop share of the local work, and every leaf invocation then pays a cross-thread handoff. That hypothesis is consistent with the measurements and with the default GIL switch interval of $5\,\mathrm{ms}$. It has not been tested by an experiment that removes one of its components, so we report it as a mechanism to test, not as a result.
+
+The runtimes are also limited by different resources. Under the asynchronous runtime, the event loop carries the local work, so the loop is busy even when no thread is held. For that reason the root utilization reported for the asynchronous and hybrid runtimes is a holding-time measure, computed from the root's hop holding time in the same way as Eq.~\eqref{eq:rho}, and it is not a measure of pool occupancy. Values above one in the high-load rows of Phase~2 therefore do not indicate a queue at a bounded pool.
+
+\subsection{RQ3: Serialization and sidecar tax}
+\label{sec:rq3}
+
+Table~\ref{tab:tax} and Figure~\ref{fig:tax} separate the two costs of the sidecar emulation. Serialization, the protocol-buffer encode and decode time, accounts for $0.20\%$ to $0.76\%$ of CPU per request, and its share rises with payload size. Protocol-buffer accelerators target workloads in which serialization dominates~\cite{karandikar2021protoacc}, and these small payloads are not such a workload. The sidecar emulation accounts for $23\%$ to $32\%$ of CPU, and its share changes by at most $3.5$ percentage points across payloads at each depth. The median per-hop edge overhead, which is the caller's wall time minus the callee's own hop time, lies between $1.8$ and $3.4\,\mathrm{ms}$. At 30\,req/s, the P99 latency grows with depth, from $42$ to $50\,\mathrm{ms}$ at depth two, to $72$ to $79\,\mathrm{ms}$ at depth four, and to $126$ to $133\,\mathrm{ms}$ at depth eight. It shows no systematic change with payload.
+
+The sidecar's cost is therefore a large share of CPU and a fixed per-hop latency. The proxy is a bytes-passthrough emulation, not Envoy, so these numbers describe the mechanism and not a production deployment. A production proxy also applies routing and telemetry filters that the emulation omits, so the figures should be remeasured on a production proxy before they are used for capacity planning.
+
+\input{../tables/tab06}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{fig07.pdf}
+  \caption{Serialization share of CPU (left) and sidecar share of CPU (right) against payload size, with one series per call-graph depth.}
+  \label{fig:tax}
+\end{figure*}
+
+\subsection{RQ4: Tracing overhead}
+\label{sec:tracing}
+
+Phase~4 compares each traced configuration with the rate-zero baseline at the same load (Table~\ref{tab:tracing}). The medians across replicates are used throughout, because one baseline replicate at the high load reached $385\,\mathrm{ms}$ at P99.9 while the other five lay between $79$ and $85\,\mathrm{ms}$, and the mean would be dominated by that run. Each traced configuration has three replicates, so the comparisons are small.
+
+At the low load of $38.6$\,req/s, all eight traced configurations read $1.2$ to $7.0\,\mathrm{ms}$ lower at P99 than the baseline. A tracing system cannot reduce latency, so this result is a confound. The baseline ran under higher host background, with a median of $0.66$ cores against $0.14$ to $0.90$ cores for the traced configurations. We therefore do not interpret the low-load differences as a property of tracing.
+
+At the high load of $115.7$\,req/s, just below saturation on the four-vertex chain, the rate-zero baseline shows a median P99 of $67.5\,\mathrm{ms}$ and a median P99.9 of $82.3\,\mathrm{ms}$. The six configurations with sampling rate $S\ge0.25$ move P99 into the $71.8$ to $78.1\,\mathrm{ms}$ range, a shift of $+4.3$ to $+10.6\,\mathrm{ms}$, and P99.9 into the $85.5$ to $95.1\,\mathrm{ms}$ range, a shift of $+3.2$ to $+12.8\,\mathrm{ms}$. The baseline at this load ran under higher background CPU, $0.93$ cores against $0.11$ to $0.41$ cores for these traced cells. Higher background load raises the queueing tail, so the baseline's latency is inflated relative to a background-free baseline. Under that monotone assumption the observed difference is biased toward zero, and it is a conservative lower bound on the tracing effect. The bound depends on that assumption, and we state it as such.
+
+Pooling all $6\times3=18$ high-load runs with $S\ge0.25$ gives a non-parametric bootstrap median overhead of $+5.50\,\mathrm{ms}$ at P99 (95\% interval $[+2.88, +7.17]\,\mathrm{ms}$, or $+8.2\%$) and $+5.86\,\mathrm{ms}$ at P99.9 ($+7.1\%$). All six configurations show a positive shift at both quantiles, which gives an exact two-sided sign test with $p=0.03125$. This test is over six configurations, each with three replicates, so the evidence is limited, and the effect is reported as suggestive. The exporter mode does not produce a consistent difference. At the high load, the batch and synchronous exporters differ by $0.7$ to $4.7\,\mathrm{ms}$ at P99 across the sampling rates with $S\ge0.25$, and the sign of the difference changes with the rate. We do not attribute the overhead to span serialization or to span creation, because the experiment does not separate those costs.
+
+\input{../tables/tab05}
+
+\subsection{RQ5: Overload control under injected faults}
+\label{sec:rq5}
+
+Table~\ref{tab:overload} and Figure~\ref{fig:goodput} compare the three controllers at two loads: 96.4\,req/s (level~3) and 154.2\,req/s (level~5). Goodput counts successful requests that finish within the 250\,ms SLA, per second of measured time. The full sweep over the five loads is in Table~\ref{tab:sweep}. Each cell averages two runs.
+
+\input{../tables/tab10}
+
+\input{../tables/tab04}
+
+Under the slowdown, the static breaker and naive retries accepted every request at every load, with a success fraction of $1.0$. Their P99.9 for successful requests reached $2.8$ to $7.7\,\mathrm{s}$ at the two highest loads. At 154.2\,req/s their goodput was $57.4$ and $61.1$\,req/s. DAC-Shed delivered $124.0$\,req/s at that load, with a P99.9 of $256.5\,\mathrm{ms}$ and a success fraction of $0.81$. At 125.3\,req/s the three controllers were within about $7$\,req/s of each other, with DAC-Shed delivering $84.9$\,req/s against $78.9$ and $77.6$\,req/s, and it had the lowest success fraction at that load, $0.68$. At 96.4\,req/s DAC-Shed delivered less than the baselines, $84.6$ against $96.7$ and $95.4$\,req/s, because it shed requests that the baselines still served within the SLA. The advantage of DAC-Shed under slowdown is therefore confined to the two highest loads.
+
+Under the one-second hang, the baselines' P99.9 for successful requests stayed near 10\,s at every load. At 154.2\,req/s, DAC-Shed delivered $73.7$\,req/s against $54.3$ and $53.5$\,req/s, with a P99.9 between $80$ and $88\,\mathrm{ms}$ at every load. Its success fraction fell from $0.63$ at the lowest load to $0.48$ at the highest, against about $0.80$ for the baselines. At 96.4\,req/s it delivered $52.0$\,req/s against $55.5$ and $53.5$\,req/s, so the advantage is again absent at medium load.
+
+Under the error fault, naive retries delivered the most goodput. At 154.2\,req/s they reached $151.8$\,req/s with a success fraction of $1.0$, ahead of DAC-Shed at $136.0$\,req/s (success $0.89$) and the static breaker at $125.2$\,req/s (success $0.82$). Retries recover most of the 30\% error probability within the SLA when the vertex has spare capacity. DAC-Shed does not retry by design, so its failures stay failures. The advantage of deadline-budget shedding therefore appears when the fault consumes capacity and the offered load is near the chain's capacity. It is absent at medium load, and it is absent under transient errors that retries can absorb.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{fig08.pdf}
+  \caption{Goodput within the 250\,ms SLA against offered rate for each injected fault, with one panel per fault and one series per controller. Each point averages two runs.}
+  \label{fig:goodput}
+\end{figure*}
+
+\paragraph{Replicate spread.} Across the 45 cells of Phase~5, the median gap in goodput between the two replicates of a cell is $1.19$\,req/s, and the mean gap is $2.61$\,req/s. At the highest load the median gap is $1.35$\,req/s, and the largest gap is $8.39$\,req/s, for the naive retry under the hang. DAC-Shed varies by $0.01$\,req/s under errors and by $0.69$\,req/s under the hang at that load. The advantage of DAC-Shed at the highest load, $+62.9$\,req/s over the naive retry under slowdown ($124.0$ against $61.1$), is larger than the largest replicate gap of the two compared cells, $7.95$\,req/s. Its advantage under the hang, $+20.3$\,req/s over the naive retry ($73.7$ against $53.5$), is larger than the $8.39$\,req/s gap of that cell. At the request level ($N \approx 24{,}670$ measured requests pooled across the two $80\text{ s}$ post-warmup windows at $154.2\text{ req/s}$), the 95\% binomial bootstrap confidence interval half-width on goodput is at most $\pm 1.54\text{ req/s}$ across all 45 cells ($\pm 1.22\text{ req/s}$ for DAC-Shed under slowdown and $\pm 1.53\text{ req/s}$ under hang), confirming that both within-run sampling uncertainty and between-replicate spread are an order of magnitude smaller than the controller separation.
+
+\paragraph{Offline replay of a budget-gated retry.} The retry that the error results suggest is worth testing, so we replayed it offline on the stored Phase~5 traces. The replay is a counterfactual on recorded data, not a live experiment, and it was designed after the Phase~5 results were known. A single retry is permitted only when the first attempt returned an injected error, when the remaining budget satisfies $B_{\mathrm{rem}}\ge 2\cdot\mathrm{floor}(v)$, and when the latency gradient is below $3.0$. The replayed attempt draws its latency from the empirical distribution of successful calls in the same run.
+
+On the two replicates at 154.2\,req/s, the replay recovers $69.3\%$ and $69.0\%$ of first-attempt errors within the 250\,ms SLA, which is $69.2\%$ pooled. The goodput of DAC-Shed rises from $136.0$\,req/s, with a success fraction of $0.89$, to $147.4$\,req/s, with a success fraction of $0.97$. That is close to the $151.8$\,req/s of naive retries, and the replay adds $2.7\%$ extra hop invocations. Under the slowdown and hang faults, the gate blocks 100\% of retries through both mechanisms simultaneously: failed requests time out or are shed rather than returning a transient callee error code, and stored hop telemetry confirms that local queueing drives the Vegas latency gradient above the $\gamma_v \ge 3.0$ threshold while exhausting $B_{\text{rem}} < 2\cdot\text{floor}(v)$. Consequently, replaying the gate across the slowdown and hang traces triggers zero retries and preserves DAC-Shed's exact $124.0\text{ req/s}$ and $73.7\text{ req/s}$ goodput curves. Because this evaluation is an offline trace-replay counterfactual assuming independent retry draws and negligible queueing perturbation from the $2.7\%$ additional hop calls, live closed-loop evaluation under bursty multi-hop faults is noted as a direction for future work.

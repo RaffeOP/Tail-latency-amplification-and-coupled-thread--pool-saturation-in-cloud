@@ -1,0 +1,33 @@
+{
+  "vertex_id": 12,
+  "port": 31140,
+  "children": [
+    {
+      "vertex_id": 25,
+      "port": 31153
+    },
+    {
+      "vertex_id": 26,
+      "port": 31154
+    }
+  ],
+  "runtime": "hybrid",
+  "pool_size": 8,
+  "service_mean_ms": 10.0,
+  "service_sigma": 0.5,
+  "cpu_burn_fraction": 0.1,
+  "seed": 1722938029,
+  "instrument": false,
+  "tracing_rate": 0.0,
+  "trace_exporter": "none",
+  "trace_path": "",
+  "fault": "none",
+  "fault_start_ns": 1792811074156539999,
+  "fault_end_ns": 1792811101156540000,
+  "fault_factor": 4.0,
+  "fault_error_prob": 0.3,
+  "fault_hang_ms": 1000.0,
+  "controller": "none",
+  "min_remaining_ms": 21.0,
+  "max_retries": 0
+}

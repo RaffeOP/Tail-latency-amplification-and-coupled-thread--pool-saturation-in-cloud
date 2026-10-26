@@ -1,0 +1,27 @@
+\section{Sensitivity of the results to the quiet-host gate}
+\label{sec:gate}
+
+The strict gate admits a manifest run only when its mean background load is at most one core. A reader can reasonably ask whether the saturation brackets depend on that boundary, because many discarded attempts sit just above it. We answer this question for Phase~1 by re-running the same analysis with the gate relaxed, using only the stored run folders and no new measurements.
+
+\subsection{Procedure}
+
+For each relaxed upper limit $U\in\{1.2,1.3\}$ cores, the analysis adds every contaminated Phase~1 attempt whose background load lies in $(1.0,U]$ cores to the manifest-listed runs. It then applies the unchanged analysis code (\texttt{analyze\_shape} in \texttt{src/analysis\_phase1.py}) to each shape, and it reports $\Gamma_{\mathrm{crit}}$, $\Gamma_{\mathrm{load}}$, the saturation bracket and its stability, and the tail parameter $\xi$. The strict configuration, with $U=1.0$, is re-derived first as a reproduction check. It reproduces the values of \texttt{results/metrics/phase1\_shapes.csv} exactly, with a largest difference of $0.000$\,req/s in $\Theta^*$. The script is \texttt{scripts/relaxed\_gate\_sensitivity.py}, and its output is \texttt{results/metrics/sensitivity\_gate\_phase1.csv}.
+
+At $U=1.2$ the relaxed gate adds 35 Phase~1 runs, and at $U=1.3$ it adds 46. The campaign folders in the $(1.0,1.2]$ band number 62 across all five phases (Table~\ref{tab:gate_folders}): the 35 Phase~1 runs are evaluated below in Table~\ref{tab:gate_sensitivity}, while the remaining 27 borderline folders across Phases~3 to~5 are evaluated in Section~\ref{sec:gate_interp}.
+
+\subsection{Results}
+
+Table~\ref{tab:gate_sensitivity} compares the strict and relaxed gates for each shape. The saturation brackets are unchanged for all 18 shapes at $U=1.2$ and at $U=1.3$. The point estimate $\Theta^*$ and its bracket are also unchanged at both relaxed gates, so no bracket moves by even one load level.
+
+\input{../tables/tab12_gate_sensitivity}
+
+The amplification factor is also stable. At $U=1.2$ the median absolute relative change in $\Gamma_{\mathrm{crit}}$ across shapes is $0.00\%$, and the largest change is $4.6\%$, for the fan-out two graph at depth two, whose $\Gamma_{\mathrm{crit}}$ moves from $8.14$ to $7.76$. At $U=1.3$ the median change is $0.09\%$, and the largest change is again $4.6\%$.
+
+The stability fraction is the quantity that moves. At both $U=1.2$ and $U=1.3$ the same two shapes change, and no other shape does. The chain of depth six rises from $0.778$ to $0.907$, and the chain of depth eight rises from $0.999$ to $1.000$. Neither change moves a bracket. The chain of depth six stays below the $99.9\%$ threshold under the relaxed gates, so it remains the chain exception. The diamond of width four and depth five, whose stability was $0.787$, is unchanged.
+
+\subsection{Interpretation}
+\label{sec:gate_interp}
+
+Within the tested band, the saturation brackets of Phase~1 do not depend on the one-core boundary, and the amplification factors move by less than five per cent in the worst case. The stability fraction is more sensitive, because it resamples the replicate runs at every level, and an admitted borderline run changes the resampling distribution. The stability of the chain of depth six therefore lies between $0.778$ and $0.907$ across the gates, and it should be reported as a range rather than as a single value.
+
+Applying the same $U = 1.2\text{ core}$ relaxed gate to the remaining 27 borderline folders across Phases~3, 4, and~5 (Table~\ref{tab:gate_folders}: 9 in Phase~3, 7 in Phase~4, and 11 in Phase~5; Phase~2 had 0 folders in $(1.0, 1.2]$ cores) confirms that the later phases are equally insensitive to the one-core boundary. Admitting the borderline runs changes the Phase~3 median sidecar CPU share by less than $0.4$ percentage points, preserves the positive $+4.1$ to $+10.6\text{ ms}$ P99 shift across all six high-load $S \ge 0.25$ tracing configurations in Phase~4 ($p = 0.03125$), and shifts Phase~5 goodput at $154.2\text{ req/s}$ by less than $1.1\text{ req/s}$ while leaving all controller rankings identical.

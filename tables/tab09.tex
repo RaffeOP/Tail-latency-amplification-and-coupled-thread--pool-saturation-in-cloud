@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Background load of kept and discarded runs by phase, in cores, from each run's host telemetry. A run is discarded when its background load averages more than one core. Discarded attempts are counted from the campaign log.}
+\label{tab:discards}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+\textbf{Phase} & \textbf{Kept runs} & \textbf{Discarded attempts} & \textbf{Kept median} & \textbf{Kept max} & \textbf{Discarded median} & \textbf{Discarded min} \\
+\midrule
+1 & 180 & 245 & 0.17 & 0.97 & 1.33 & 1.05 \\
+2 & 135 & 1 & 0.15 & 0.80 & 1.33 & 1.33 \\
+3 & 75 & 66 & 0.57 & 0.95 & 1.63 & 1.00 \\
+4 & 60 & 51 & 0.47 & 0.99 & 1.31 & 1.02 \\
+5 & 90 & 109 & 0.17 & 0.99 & 1.31 & 1.02 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

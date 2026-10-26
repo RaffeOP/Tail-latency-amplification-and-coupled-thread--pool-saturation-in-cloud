@@ -1,0 +1,56 @@
+\documentclass[pdflatex,sn-mathphys]{sn-jnl}
+
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{microtype}
+\usepackage{xcolor}
+
+\graphicspath{{../results/figures/}{./}{figures/}}
+\jyear{2026}
+\raggedbottom
+
+\begin{document}
+
+\title[Tail-latency amplification and coupled thread-pool saturation]{Tail-latency amplification and coupled thread-pool saturation in cloud microservice call graphs, with deadline-aware overload control}
+
+\author[1]{\fnm{Devarsh} \sur{Patel}}\email{devarsh.patel2024@vitstudent.ac.in}
+\author*[1]{\fnm{Ranjithkumar} \sur{S}}\email{ranjithkumar.s@vit.ac.in}
+
+\affil[1]{\orgdiv{School of Computer Science and Engineering (SCOPE)}, \orgname{Vellore Institute of Technology (VIT)}, \orgaddress{\city{Vellore}, \state{Tamil Nadu}, \country{India}}}
+
+\abstract{Microservice requests fan out across dependency graphs, and each synchronous upstream call holds a worker thread until its downstream calls return. We state a coupled $G/G/m$ holding-time model for bounded call graphs and evaluate it on a process-per-vertex gRPC testbed with synchronous, asynchronous, and hybrid runtimes, open-loop Poisson load, and coordinated-omission-corrected latency. Across 540 completed runs in five phases, P99.9 latency at the highest stable load was 2.8 to 8.1 times the critical-path median sum for 17 of 18 call-graph shapes, and 20.5 times for a width-eight in-cast. Along chains, the saturation horizon fell from 234--312 to 57--77 requests per second as depth grew from two to eight, while the root pool reached utilization 0.75 to 0.79 with the host about 10\% busy. Asynchronous and hybrid chains of depth eight did not saturate up to 191 requests per second. The model over-predicted stable-load P99.9 by about 1.6 times at the median, and the chain error traces to the root's fixed shape parameter. Two added diagnostics did not remove the fan-out error. Under capacity faults at high load, a deadline-budget controller (DAC-Shed) kept the P99.9 of successful requests below 260\,ms, where a static circuit breaker and naive retries reached 2.7\,s or more. Naive retries delivered more goodput under transient errors, and an offline replay of a budget-gated single retry recovered most of that goodput. Near saturation, distributed tracing with sampling rates of 0.25 or higher raised median P99 by 4.3 to 10.6 ms across all six configurations (pooled bootstrap median +5.5 ms, exact sign test $p = 0.03125$), representing a conservative lower bound given higher baseline background load. Relaxing the quiet-host gate to 1.2 cores across stored contaminated runs leaves all 18 Phase 1 saturation brackets and all Phase 3--5 controller rankings unchanged.}
+
+\keywords{Microservices, Service meshes, Tail latency, Queueing theory, Overload control, Cloud computing}
+
+\maketitle
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_model}
+\input{sections/04_testbed}
+\input{sections/05_campaign}
+\input{sections/06_results}
+\input{sections/07_gate_sensitivity}
+\input{sections/08_threats}
+\input{sections/09_guidelines}
+\input{sections/10_conclusion}
+
+\section*{Declarations}
+
+\begin{itemize}
+\item \textbf{Funding.} The authors received no specific grant from any funding agency in the public, commercial, or not-for-profit sectors for this work.
+\item \textbf{Competing interests.} The authors declare no competing interests.
+\item \textbf{Ethics approval and consent to participate.} Not applicable. The study involves no human participants, human data, or animals.
+\item \textbf{Consent for publication.} Not applicable.
+\item \textbf{Data availability.} The complete dataset generated and analyzed during the current study---comprising all 540 completed run directories ($4.81 \times 10^6$ request records, $4.80 \times 10^6$ sampled hop records, and $0.5\text{ s}$ per-process and host CPU telemetry logs) together with the 200 retained contaminated run directories and campaign logs---is archived in the study repository and available from the corresponding author upon reasonable request (with permanent Zenodo DOI deposit upon publication).
+\item \textbf{Code availability.} The version-controlled benchmark harness (\texttt{src/}), coupled holding-time model and diagnostics (\texttt{src/analytical\_dag\_model.py}, \texttt{src/model\_m1\_diagnostic.py}), overload controllers (\texttt{src/overload\_controller.py}, \texttt{src/node\_retry.py}), statistical analysis and sensitivity scripts (\texttt{src/analysis\_phase1.py}, \texttt{src/analysis\_phases35.py}, \texttt{scripts/}), and deterministic build pipeline (\texttt{paper/compile\_paper.sh}) are archived in the study repository and available from the corresponding author upon request.
+\item \textbf{Author contributions.} Devarsh Patel and Ranjithkumar S conceptualized the study. Devarsh Patel formulated the coupled holding-time model, implemented the benchmark testbed and the DAC-Shed controller, executed the measurement campaign, and performed the statistical analyses. Ranjithkumar S supervised the research, contributed to the experimental methodology and analytical validation, and reviewed and revised the manuscript. Both authors read and approved the final manuscript.
+\end{itemize}
+
+\bibliography{../literature/peer_reviewed_papers}
+
+\end{document}

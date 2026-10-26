@@ -1,0 +1,40 @@
+\section{Threats to validity}
+\label{sec:threats}
+
+We organize the threats by the four standard categories. Each threat is stated with the evidence that bears on it and with the limit it places on the claims of Section~\ref{sec:results}.
+
+\subsection{Internal validity}
+
+\textbf{Quiet-host selection.} The campaign discarded 472 of its 1{,}012 attempts, which is $46.6\%$. Discarding is conditioned on background load, and it can bias the results if borderline background activity correlates with call-graph shape or with load level. Discards are concentrated in Phase~1, with 245 of 425 attempts, and many sit close to the cutoff. Among the campaign folders that remain on disk, 62 of 200 have background load in $(1.0,1.2]$ cores. Section~\ref{sec:gate} tests the saturation brackets and controller rankings against this band, and they do not move.
+
+\textbf{Start gate and contamination limit.} The start gate admits a run when total host busy time is at most about two cores, and the contamination test discards runs whose background exceeds one core. Some discards may therefore be a consequence of this mismatch, although the data do not quantify how many. The campaign ran under the 25\% start gate. A stricter start gate would have avoided starting some runs that were later discarded. It does not change how an accepted run is measured.
+
+\textbf{Missing contaminated folders.} The campaign log records 472 discards, but only 200 of the corresponding folders are present on disk. The discards in the log are used for the counts in Table~\ref{tab:discards}, and the folder-level analyses use only the 200 retained folders.
+
+\textbf{Code changes.} Seven Phase~1 runs were executed before a change to the run path and were re-executed under the final code. The original values agree with the re-executed values within 3\,ms at P99 on the stable levels. After the campaign, on 25 October, the run path was changed to support the offline retry evaluation. The change sets the status code of an injected error to 503, adds a retry gate, and passes child floors to parents. The DAC-Shed interceptor treats any non-200 status as a failure, so its accounting is unchanged. No campaign result was regenerated, but the code that produced the campaign results is not the code that is now in the repository. All campaign source files, manifests, and analysis scripts are archived in the version-controlled study repository alongside run-level timestamps and configuration manifests.
+
+\textbf{Reporting choices made after the data.} The bracket and stability reporting for $\Theta^*$ was adopted after the data were collected. The point estimator did not change, and the choice is disclosed in Section~\ref{sec:changes}. The offline retry replay was designed after the Phase~5 results were known. It is an exploratory counterfactual, and no claim about a live retry controller is made.
+
+\textbf{Small replicate counts.} Phase~4 has three replicates per traced configuration and six per baseline load, and Phase~5 has two replicates per cell. An extension to five replicates was started and then stopped, and its three accepted runs are not analyzed. The Phase~4 result on tracing overhead therefore rests on small samples, and the Phase~5 cell values rest on two runs each.
+
+\subsection{External validity}
+
+All experiments ran as isolated operating-system processes over loopback on a single eight-core host, not across the network interface cards of a multi-node cluster. The measurements therefore include user-space gRPC framing, loopback socket traversal, thread-pool queueing, and the scheduling of the Python runtime, but they exclude switch queueing, NIC interrupts, and cross-rack congestion. A multi-node deployment could show a different balance between CPU and thread-pool saturation.
+
+The service time is a calibrated I/O-bound lognormal, with a mean of $10\,\mathrm{ms}$ and a $10\%$ busy-loop share. It does not model database transactions, disk access, or lock contention, and real services can be bound by any of these. The Phase~3 sidecar is a bytes-passthrough emulation rather than Envoy, and the Phase~5 circuit breaker reproduces Envoy's static knobs in-process rather than deploying a proxy. The sidecar and tracing figures therefore bound the mechanism-level costs of user-space interception and span lifecycle management. They do not establish the costs of a production service mesh. The language and the runtime are also specific. The runtimes are Python implementations on gRPC, and the CPython global interpreter lock is one of the mechanisms that may affect the hybrid results. Other languages would likely show different in-cast behavior.
+
+\subsection{Construct validity}
+
+The saturation horizon $\Theta^*$ is resolved only to one load level, because each shape has five levels. The bracket and its stability are the quantities that the data can support, and a continuous confidence interval would be an artifact of the grid. The generalized Pareto fits are restricted to stable levels, with root utilization below $0.9$ and timeouts at most $1\%$, because the excesses of an overloaded run are not stationary. Under those restrictions the shape parameter is estimated from the pooled excesses of the highest stable level, and its interval is reported only when at least 30 excesses are available.
+
+Root pool utilization is computed from the recorded root holding times by Little's law, as throughput times mean holding time divided by pool size. For the asynchronous and hybrid runtimes this is a holding-time measure and not a measure of occupancy of a bounded pool. The background load is host busy time minus the CPU consumed by the harness processes, and it is an estimate. The contamination test depends on that estimate.
+
+The M1 diagnostic uses a heuristic waiting-time variance term, which is labelled as such, and its fan-out error is not identified by a separate experiment. The offline retry replay assumes that a retried call draws its latency from the empirical distribution of successful calls in the same run, and it does not model the effect of retries on the queueing of other requests. The DAC-Shed controller uses the critical-path floor of each vertex, which is computed from the mean service time and the hop cost of each vertex rather than from measured service times. A floor that differs from the true remaining work would shift the shedding threshold in the same direction.
+
+\subsection{Statistical conclusion validity}
+
+The estimators are descriptive. Several comparisons are made across many shapes and loads without a correction for multiple comparisons. The exact sign test for the tracing overhead uses six configurations and is reported as suggestive. The bootstrap intervals for the tracing overhead use the three replicates of each configuration, and they are interval estimates, not hypothesis tests. No confidence interval is reported for $\Theta^*$, for the goodput of the overload controllers, or for the stability fraction. Goodput spread is reported as the replicate gap, which is the only spread measure available for Phase~5.
+
+\subsection{Reproducibility}
+
+The run folders, the manifests, the metric tables, and the analysis scripts are kept in the study repository. The reproduction checks of Section~\ref{sec:campaign} and Section~\ref{sec:gate} show that the stored data regenerate the reported metrics. Analyses that were designed after the results are labelled as post hoc in the text.

@@ -1,0 +1,79 @@
+\section{Coupled holding-time model}
+\label{sec:model}
+
+\subsection{Call graphs and visit counts}
+
+Let $G=(V,E)$ be a bounded directed acyclic call graph with a single root $v_0$. The root serves external requests arriving as a Poisson process of rate $\lambda_0$. A vertex $v$ is a $G/G/m_v$ station with $m_v$ worker threads, a local service time of mean $s_v$, and a thread that stays occupied until its slowest child responds. Every root request makes $\nu(v)$ calls to vertex $v$, where $\nu(v_0)=1$ and $\nu(v)=\sum_{u:(u,v)\in E}\nu(u)$. This recursion counts the root-to-$v$ paths, so a vertex reached along several paths receives several calls per root request. The arrival rate at $v$ is therefore $\lambda_v=\lambda_0\,\nu(v)$.
+
+The four graph families in the campaign follow from this structure. A chain of depth $d$ has $d$ vertices in series, so every vertex has $\nu(v)=1$. A scatter-gather tree of depth $D$ has $D$ levels, and every internal vertex has $F$ children. Its total size is capped at 32 vertices, which bounds the $F^D$ growth. A diamond in-cast of depth $D$ and width $W$ has $W$ parallel branches of $D-2$ middle vertices each, between the root and two shared leaves, so $\lvert V\rvert=1+W(D-2)+2$. Each shared leaf receives $W$ calls per root request, and the in-cast's visit counts therefore grow with width. The two DeathStarBench-derived sub-graphs have eight and twelve vertices.
+
+\subsection{Holding time, pool utilization, and waiting time}
+
+With per-hop network cost $\delta$, the holding time of vertex $v$ is the local service time plus the slowest child response,
+\begin{equation}
+  S_v = s_v + \max_{u\in\mathcal{C}(v)}\bigl(\delta + R_u\bigr),
+  \qquad S_v = s_v \text{ for leaves},
+  \label{eq:holding}
+\end{equation}
+where $\mathcal{C}(v)$ is the set of children of $v$ and $R_u$ is the response time of child $u$. The pool utilization of $v$ is
+\begin{equation}
+  \rho_v = \frac{\lambda_v S_v}{m_v}.
+  \label{eq:rho}
+\end{equation}
+The waiting time uses the Sakasegawa-type approximation for $G/G/m$ stations~\cite{whitt1993ggm},
+\begin{equation}
+  W_v \approx \frac{c_a^2+c_s^2}{2}\,\frac{\rho_v^{\sqrt{2(m_v+1)}-1}}{m_v(1-\rho_v)}\,S_v,
+  \label{eq:sakasegawa}
+\end{equation}
+and the response time of the vertex is $R_v = W_v + S_v$. The factor $(c_a^2+c_s^2)/2$ and the utilization exponent follow the heavy-traffic analysis of a single server~\cite{kingman1961single}, extended to $m$ servers by Sakasegawa~\cite{sakasegawa1977approximation}. The model couples tiers through $S_v$, not through the arrival process: a deep downstream queue lengthens the holding time of every upstream thread, and that lengthening raises the upstream utilization in Eq.~\eqref{eq:rho}.
+
+The prediction for the root is the response time $R_{v_0}$, with lognormal quantiles matched to its mean. The lognormal shape is set by the local service-time squared coefficient of variation, $c_s^2=e^{\sigma^2}-1$, and the same value enters the waiting-time term at every vertex. Path variance is not propagated, and downstream arrivals reuse the root's arrival SCV. Both are stated simplifications, and Section~\ref{sec:model_diag} tests the first of them directly. The model uses the campaign's parameters: $m_v=8$ worker threads, $\delta=0.5\,\mathrm{ms}$ for the loopback hop, and $\sigma=0.5$ for the local service time with a mean of $10\,\mathrm{ms}$.
+
+Little's law~\cite{little1961law} links the quantities that the testbed records. The mean number of threads held at $v$ equals the arrival rate times the mean holding time, $\lambda_v S_v$, and Eq.~\eqref{eq:rho} is this quantity divided by the pool size. The measured pool utilization in Section~\ref{sec:results} is computed from the recorded holding times in the same way.
+
+\subsection{Predictions that the experiments can falsify}
+
+The recursion makes two predictions. First, the root's pool utilization rises with the arrival rate and with the longest holding path, so deep chains saturate at lower rates. Second, a diamond in-cast vertex saturates when $\lambda_0\nu(v)S_v=m_v$. Its visit count $\nu(v)$ grows with the number of converging branches, so a wider in-cast fills at a lower root rate. Section~\ref{sec:results} tests both predictions against the measured tails and horizons, and it reports where they fail.
+
+\subsection{Estimators}
+\label{sec:estimators}
+
+Three estimators summarize each shape. The first two are amplification factors that compare a high quantile of end-to-end latency with a structural or load baseline,
+\begin{equation}
+  \Gamma_{\mathrm{crit}}(\lambda,\alpha)=\frac{Q_\alpha\bigl(T_{\mathrm{req}}(\lambda)\bigr)}{\max_{p\in\mathrm{Paths}(G)}\sum_{v\in p}Q_{0.5}\bigl(T^0_{\mathrm{proc}}(v)\bigr)},
+  \label{eq:gcrit}
+\end{equation}
+\begin{equation}
+  \Gamma_{\mathrm{load}}(\lambda,\alpha)=\frac{Q_\alpha\bigl(T_{\mathrm{req}}(\lambda)\bigr)}{Q_\alpha\bigl(T_{\mathrm{req}}(\lambda_{\mathrm{base}})\bigr)}.
+  \label{eq:gload}
+\end{equation}
+Here $\alpha=0.999$, $\lambda$ is the highest stable load level of the shape, and $\lambda_{\mathrm{base}}$ is the lowest level. The denominator of $\Gamma_{\mathrm{crit}}$ uses the baseline medians of each vertex's service time, summed along the longest path. The numerator is the measured P99.9 at the highest stable level.
+
+The saturation horizon $\Theta^*$ is the load at which the curvature of a penalized cubic spline fitted to $\log_{10}$ of the P99.9 latency is largest. The spline minimizes $\sum_i(y_i-g(x_i))^2+\eta\int \bigl(g^{\prime\prime}\bigr)^2$, with the smoothing parameter $\eta$ chosen by generalized cross-validation. The curvature is $\kappa(\lambda)=\lvert g^{\prime\prime}(\lambda)\rvert/(1+g^{\prime}(\lambda)^2)^{3/2}$, evaluated on a 2{,}000-point grid. A campaign shape has five load levels, so the knee can be located only to within one level spacing. A percentile interval on $\Theta^*$ therefore collapses to a single value, and we report two quantities instead. The bracket is the pair of measured load levels that enclose $\Theta^*$. The stability is the fraction of 1{,}000 two-stage bootstrap resamples that return the same bracket. Each resample first draws the replicate runs at every level and then draws the requests within each run. No hypothesis test is used.
+
+The bracket and stability reporting was adopted after the campaign data were collected, when percentile intervals proved degenerate. The point estimator is unchanged by that choice. Two cases need care. For synchronous chains of depth eight, the curvature peak lies at the first load level with timeouts, so the upper end of the bracket lies in saturated territory. For asynchronous and hybrid chains of depth eight, the curve is flat over the tested range and no knee occurs. The runtime comparison in Section~\ref{sec:runtimes} therefore uses the same offered loads rather than these brackets.
+
+The tail shape is estimated by a generalized Pareto fit to the excesses above the 95th percentile of the measured latencies~\cite{pickands1975extreme,davison1990exceedances}. The fit maximizes the likelihood with the location fixed at zero. Probability-weighted moments~\cite{hosking1987parameter} are the usual alternative for small samples, and they were not used here. The excesses are pooled over the replicates at the highest stable level. For a threshold $u$ with $N_u$ excesses out of $N$ samples, the extreme quantile is
+\begin{equation}
+  \hat{Q}_{\alpha} = u + \frac{\hat\sigma}{\hat\xi}\left[\left(\frac{N}{N_u}(1-\alpha)\right)^{-\hat\xi}-1\right].
+  \label{eq:gpd}
+\end{equation}
+The 95\% interval for $\hat\xi$ is a percentile bootstrap over 1{,}000 resamples, computed when at least 30 excesses are available. A load level is stable when its mean root pool utilization is below 0.9 and its mean timeout fraction is at most 1\%. Queues grow during an overloaded run, so the excesses of such a run are not stationary and are excluded from tail estimation.
+
+\subsection{Diagnostics for path variance and fan-out order statistics}
+\label{sec:model_diag}
+
+The baseline recursion, called M0 here, takes the root's shape parameter from the single-vertex local SCV. It propagates neither the variance accumulated along a path nor the order-statistic shift of parallel branches. Two diagnostics test those omissions against the measurements. Both are computed after the campaign, on the same shape-level pairs, and neither replaces M0 as the primary model.
+
+The first is a path-variance diagnostic. Along a serial chain of length $L$, the path-averaged SCV is $c_{s,\mathrm{path}}^2=(e^{\sigma^2}-1)/L$, which gives the root shape parameter $\sigma_{\mathrm{root,path}}^2=\ln\bigl(1+c_{s,\mathrm{path}}^2\bigr)$. The diagnostic tests whether M0's over-prediction on deep chains comes from holding the root shape fixed at $c_s^2$.
+
+The second is an order-statistic extension, called M1. Let $\mathcal{C}(v)$ be the children of $v$ with $F=\lvert\mathcal{C}(v)\rvert$, and let child $u$ arrive at $a_u=\delta+R_u$. Define the mean child variance $\bar\sigma_v^2=\frac{1}{F}\sum_{u\in\mathcal{C}(v)}\operatorname{Var}(R_u)$. Let $\alpha_F$ and $\beta_F$ be the mean and variance of the maximum of $F$ independent standard normal variates. The downstream stage that the parent thread waits for is then approximated by
+\begin{equation}
+  \mathbb{E}[M_v]=\max_{u\in\mathcal{C}(v)} a_u+\alpha_F\,\bar\sigma_v,
+  \qquad
+  \operatorname{Var}(M_v)=\beta_F\,\bar\sigma_v^2,
+  \label{eq:m1}
+\end{equation}
+and $S_v=s_v+\mathbb{E}[M_v]$ replaces the holding time in Eq.~\eqref{eq:sakasegawa}. The moments $\alpha_F$ and $\beta_F$ are evaluated by numerical integration of the exact density of the maximum. For $F=1$ the expressions reduce to the single-child case, with $\alpha_1=0$ and $\beta_1=1$. Unequal children use the same moments scaled by the root-mean-square child spread, which is an approximation. The waiting-time variance term that M1 feeds into Eq.~\eqref{eq:sakasegawa} is heuristic, and we label it as such.
+
+The M1 expressions are not a derivation of the variance of a holding time under a full stochastic model. They are an order-statistic correction that can be evaluated from the same inputs as M0. Section~\ref{sec:model_agree} reports what it does and does not change.

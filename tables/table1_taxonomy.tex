@@ -1,0 +1,35 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Curated taxonomy of 20 peer-reviewed systems papers (ACM, USENIX, and other peer-reviewed venues). Every record was checked against Crossref or the USENIX presentation page. The selection is targeted, not a PRISMA-2020 review, and the limitations describe scope rather than quality.}
+\label{tab:taxonomy}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}p{2.6cm}lp{3.2cm}p{3.3cm}p{5.2cm}@{}}
+\toprule
+\textbf{Work} & \textbf{Venue} & \textbf{Scope} & \textbf{Method} & \textbf{Limitation for multi-tier thread-pool analysis} \\
+\midrule
+Dean and Barroso \cite{dean2013tailatscale} & CACM 2013 & Fan-out request paths & Tail-tolerant techniques & Tail amplification argued qualitatively; no coupled multi-tier queueing model \\
+Gan et al.\ DeathStarBench \cite{gan2019deathstarbench} & ASPLOS 2019 & End-to-end microservice applications & Hardware and software characterization & Characterizes applications; does not isolate the concurrency runtime or DAG depth \\
+Gan et al.\ Seer \cite{gan2019seer} & ASPLOS 2019 & Cloud microservice traces & Learned QoS-violation prediction & Prediction-oriented; no analysis of thread holding times \\
+Gan et al.\ Sage \cite{gan2021sage} & ASPLOS 2021 & Microservice dependency graphs & ML culprit localization & Diagnosis after the fact; no admission control \\
+Zhang et al.\ Sinan \cite{zhang2021sinan} & ASPLOS 2021 & Microservice resource allocation & ML-predicted end-to-end tail latency & Allocation-level control; thread-pool saturation below CPU capacity not modeled \\
+Qiu et al.\ FIRM \cite{qiu2020firm} & OSDI 2020 & Multi-tier microservices & Learned SLO-driven resource reallocation & Container-level reallocation; no deadline-aware shedding \\
+Luo et al.\ \cite{luo2021characterizing} & SoCC 2021 & Production microservice traces & Dependency and runtime characterization & Observational; no controlled concurrency-model experiments \\
+Zhou et al.\ \cite{zhou2021fault} & IEEE TSE 2021 & Microservice fault analysis & Industrial survey and benchmark system & Focus on fault debugging rather than latency saturation \\
+Zhou et al.\ DAGOR \cite{zhou2018dagor} & SoCC 2018 & WeChat microservices & Priority-based overload control & Evaluated on one production system; no DAG-coupled analysis \\
+Huang et al.\ \cite{huang2022metastable} & OSDI 2022 & Incident reports across organizations & Metastable failure taxonomy & Qualitative incident study; no controlled latency measurements \\
+Bronson et al.\ \cite{bronson2021metastable} & HotOS 2021 & Distributed systems & Metastable failure model & Conceptual; not evaluated on DAG topologies \\
+Cho et al.\ Breakwater \cite{cho2020breakwater} & OSDI 2020 & Microsecond-scale RPC servers & Credit-based server-side overload control & Server-side admission; multi-tier coupling is not the focus \\
+Brakmo et al.\ TCP Vegas \cite{brakmo1994vegas} & SIGCOMM 1994 & TCP congestion control & RTT-based delay-gradient control & Transport-layer method; the gradient controller here is adapted from it \\
+Satop\"a\"a et al.\ Kneedle \cite{satopaa2011kneedle} & ICDCS-W 2011 & System behavior curves & Knee-point detection & General detector; no bootstrap intervals \\
+Schroeder et al.\ \cite{schroeder2006open} & NSDI 2006 & Workload generation & Open versus closed system models & Establishes the open-loop requirement; not microservice-specific \\
+Karandikar et al.\ ProtoAcc \cite{karandikar2021protoacc} & MICRO 2021 & Protocol Buffers (de)serialization & Hardware accelerator & Hardware offload; general-purpose CPU serialization tax not characterized here \\
+Verma et al.\ Borg \cite{verma2015borg} & EuroSys 2015 & Cluster management & Large-scale scheduling & Scheduling, not request-path latency \\
+Mace et al.\ Pivot Tracing \cite{mace2015pivot} & SOSP 2015 & Distributed monitoring & Dynamic causal monitoring & Monitoring design; tail-percentile observer effect not measured \\
+Kaldor et al.\ Canopy \cite{kaldor2017canopy} & SOSP 2017 & Production tracing & End-to-end performance tracing & Tracing infrastructure; not a controlled observer-effect study \\
+Zhu et al.\ \cite{zhu2023sidecar} & SoCC 2023 & Service mesh sidecars & Overhead decomposition & Sidecar overhead in production-style proxies; not DAG-coupled queueing \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

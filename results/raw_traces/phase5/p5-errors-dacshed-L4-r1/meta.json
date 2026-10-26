@@ -1,0 +1,55 @@
+{
+  "run": {
+    "run_id": "p5-errors-dacshed-L4-r1",
+    "phase": 5,
+    "topology": "chain",
+    "shape": "chain_D4",
+    "topology_args": {
+      "depth": 4
+    },
+    "runtime": "sync",
+    "arrival_rate_rps": 125.301,
+    "duration_s": 90.0,
+    "warmup_s": 10.0,
+    "payload_bytes": 64,
+    "pool_size": 8,
+    "service_mean_ms": 10.0,
+    "service_sigma": 0.5,
+    "cpu_burn_fraction": 0.1,
+    "replicate": 1,
+    "seed": 431738959,
+    "extra": {},
+    "sidecar": false,
+    "tracing_rate": 0.0,
+    "trace_exporter": "none",
+    "fault": "errors",
+    "fault_target": 2,
+    "fault_start_frac": 0.35,
+    "fault_end_frac": 0.65,
+    "controller": "dacshed",
+    "sla_ms": 250.0,
+    "max_retries": 0
+  },
+  "summary": {
+    "measured": 10013.0,
+    "ok": 8885.0,
+    "error": 1128.0,
+    "timeout": 0.0,
+    "mean_us": 39454.20593228802,
+    "max_us": 94783.0,
+    "p50.0_us": 38239.0,
+    "p90.0_us": 52639.0,
+    "p99.0_us": 68415.0,
+    "p99.9_us": 80895.0,
+    "p99.99_us": 94463.0,
+    "host_noise_p99_ms": 0.0001669870689511091
+  },
+  "scheduled": 11225,
+  "generator_aborted": false,
+  "machine": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.6",
+    "grpc": "1.84.1",
+    "cpu_count": 8
+  }
+}
