@@ -1,4 +1,4 @@
-# R4: Tail-Latency Amplification and Coupled Thread-Pool Saturation in Cloud Microservice Call Graphs, with Deadline-Aware Overload Control
+# Tail-Latency Amplification and Coupled Thread-Pool Saturation in Cloud Microservice Call Graphs, with Deadline-Aware Overload Control
 ### Official Artifact & Replication Package for Springer Nature Journal Submission
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
